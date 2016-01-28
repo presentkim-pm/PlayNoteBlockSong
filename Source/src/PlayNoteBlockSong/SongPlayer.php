@@ -39,7 +39,7 @@ class SongPlayer extends \stdClass{
 		$this->length = $this->getShort();
 
 		// Short: Song height
-		$this->getShort();
+		$height = $this->getShort();
 
 		// String: Song name
 		$this->getString();
@@ -98,20 +98,37 @@ class SongPlayer extends \stdClass{
 			$this->getShort();
 
 			while(true){
-				/* Step #3: Byte: Note block instrument
-				 * 0 = Piano (air)
-				 * 1 = Double Bass (wood)
-				 * 2 = Bass Drum (stone)
-				 * 3 = Snare Drum (sand)
-				 * 4 = Click (glass) 
-				*/
-				$type = $this->getByte();
-				if($type == NoteBlock::BASS_DRUM){ // I hate this sound
-					$type = NoteBlock::PIANO_OR_HARP;
+				// Step #3: Byte: Note block instrument
+				switch($this->getByte()){
+					case 1: // Double Bass (wood)
+						$type = NoteBlock::BASS_GUITAR;
+					break;
+					case 2: // Bass Drum (stone)
+						$type = NoteBlock::BASS_DRUM;
+					break;
+					case 3: // Snare Drum (sand)
+						$type = NoteBlock::SNARE_DRUM;
+					break;
+					case 4: // Click (glass)
+						$type = NoteBlock::CLICKS_AND_STICKS;
+					break;
+					default: // Piano (air)
+						$type = NoteBlock::PIANO_OR_HARP;
+					break;
 				}
-				
-				// Step #4: Byte: Note block key
-				$pitch = $this->getByte() - 33; // - 2 octave
+
+				/* Step #4: Byte: Note block key
+				 * 0 is A0 and 87 is C8.
+				 * 33-57 is within the 2 octave
+				 */
+				if($height == 0){
+					$pitch = $this->getByte() - 33;
+				}elseif($height < 10){
+					$pitch = $this->getByte() - 33 + $height;
+				}else{
+					$pitch = $this->getByte() - 48 + $height;
+				}
+
 				$sounds[] = [$pitch, $type];
 				if($this->getShort() == 0) break;
 			}

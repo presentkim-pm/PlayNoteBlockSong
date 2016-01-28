@@ -1,7 +1,7 @@
 name: PlayNoteBlockSong
 main: PlayNoteBlockSong\PlayNoteBlockSong
-prefix: "§ePlayNoteBlock"
-version: "1.0"
+prefix: "§ePlayNBS"
+version: "1.1"
 api: [1.13.0, 2.0.0]
 depend: [AddNoteBlock]
 author: DeBe
@@ -11,7 +11,7 @@ commands:
   song:
     permission: playnoteblocksong.cmd
     description: <Play | Stop | Next | Prev | Shuffle | List | Reload>
-    usage: /ShowInfo <Play | Stop | Next | Prev | Shuffle | List | Reload>
+    usage: /Song <Play | Stop | Next | Prev | Shuffle | List | Reload>
 
 permissions:
   playnoteblocksong.cmd.*:
