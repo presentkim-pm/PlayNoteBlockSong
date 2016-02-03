@@ -188,6 +188,6 @@ class PlayNoteBlockSong extends PluginBase{
 	}
 
 	public function isKorean(){
-		return $this->getServer()->getLanguage()->getName() == "\"한국어\"";
+		return "한국어\";
 	}
 }
